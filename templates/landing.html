@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF-Bot - Smart Document Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        body {
+            background-color: #111827;
+            color: #ffffff;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #111827 0%, #DC2626 100%);
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(220, 38, 38, 0.1), 0 10px 10px -5px rgba(220, 38, 38, 0.04);
+            border: 1px solid rgba(220, 38, 38, 0.4);
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #DC2626;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2), 0 2px 4px -1px rgba(220, 38, 38, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-gray-900 shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <i class="fas fa-robot text-red-600 text-2xl"></i>
+                        <span class="text-xl font-bold bg-gradient-to-r from-red-600 to-red-800 text-transparent bg-clip-text">PDF-Bot</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="/login" class="nav-link text-gray-300 hover:text-red-500">Login</a>
+                    <a href="/signup" class="btn-primary text-white px-6 py-2 rounded-full hover:bg-red-700">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="gradient-bg pt-24">
+        <div class="max-w-7xl mx-auto px-4 py-20">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <h1 class="text-5xl font-bold text-white mb-6 leading-tight">Transform Your PDFs with AI-Powered Intelligence</h1>
+                    <p class="text-xl text-gray-300 mb-8">Chat with your documents, extract insights, and unlock knowledge with our advanced AI technology.</p>
+                    <div class="flex space-x-4">
+                        <a href="/signup" class="bg-red-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-red-700 transform hover:scale-105 transition duration-300">Get Started Free</a>
+                        <a href="#features" class="border-2 border-red-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-red-600 transition duration-300">Learn More</a>
+                    </div>
+                </div>
+                <div class="hidden md:block" data-aos="fade-left">
+                    <img src="{{ url_for('static', filename='images/ai-illustration.svg') }}" alt="AI PDF Bot Illustration" class="w-full max-w-lg mx-auto animate-float">
+                </div>
+            </div>
+        </div>
+        <svg class="w-full" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0L48 8.33333C96 16.6667 192 33.3333 288 41.6667C384 50 480 50 576 41.6667C672 33.3333 768 16.6667 864 8.33333C960 0 1056 0 1152 8.33333C1248 16.6667 1344 33.3333 1392 41.6667L1440 50V120H1392C1344 120 1248 120 1152 120C1056 120 960 120 864 120C768 120 672 120 576 120C480 120 384 120 288 120C192 120 96 120 48 120H0V0Z" fill="#111827"/>
+        </svg>
+    </div>
+
+    <!-- Features Section -->
+    <div id="features" class="max-w-7xl mx-auto px-4 py-20">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-4xl font-bold text-white mb-4">Powerful Features</h2>
+            <p class="text-xl text-gray-400">Everything you need to interact with your PDFs intelligently</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="feature-card p-6 rounded-xl" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-red-600 text-4xl mb-4">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">Interactive Chat</h3>
+                <p class="text-gray-400">Have natural conversations with your PDFs. Ask questions and get instant, accurate responses.</p>
+            </div>
+            <div class="feature-card p-6 rounded-xl" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-red-600 text-4xl mb-4">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">Smart Summaries</h3>
+                <p class="text-gray-400">Get concise summaries of your documents, highlighting the most important information.</p>
+            </div>
+            <div class="feature-card p-6 rounded-xl" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-red-600 text-4xl mb-4">
+                    <i class="fas fa-list"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2">Key Points Extraction</h3>
+                <p class="text-gray-400">Extract and organize key points from your documents automatically.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="bg-gray-900 py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl font-bold text-white mb-4">How It Works</h2>
+                <p class="text-xl text-gray-400">Simple steps to get started with PDF-Bot</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="bg-gray-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-upload text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-white">1. Upload PDF</h3>
+                    <p class="text-gray-400">Upload your PDF document to our secure platform</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="bg-gray-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-robot text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-white">2. AI Processing</h3>
+                    <p class="text-gray-400">Our AI analyzes and understands your document</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="bg-gray-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-comments text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-white">3. Start Chatting</h3>
+                    <p class="text-gray-400">Ask questions and get instant answers</p>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+                    <div class="bg-gray-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-lightbulb text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2 text-white">4. Get Insights</h3>
+                    <p class="text-gray-400">Generate summaries and extract key points</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="gradient-bg py-20">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold text-white mb-6" data-aos="fade-up">Ready to Transform Your PDF Experience?</h2>
+            <p class="text-xl text-gray-300 mb-8" data-aos="fade-up" data-aos-delay="100">Join thousands of users who are already using PDF-Bot to work smarter with their documents.</p>
+            <a href="/signup" class="bg-red-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-red-700 inline-block transform hover:scale-105 transition duration-300" data-aos="fade-up" data-aos-delay="200">Get Started Free</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-robot text-red-600 text-2xl"></i>
+                        <span class="text-xl font-bold">PDF-Bot</span>
+                    </div>
+                    <p class="text-gray-400">Transforming the way you interact with PDFs using AI technology.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Features</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Interactive Chat</li>
+                        <li>Smart Summaries</li>
+                        <li>Key Points Extraction</li>
+                        <li>Document Analysis</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>About Us</li>
+                        <li>Contact</li>
+                        <li>Privacy Policy</li>
+                        <li>Terms of Service</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-red-600 transition duration-300">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-red-600 transition duration-300">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-red-600 transition duration-300">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 PDF-Bot. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+    </script>
+</body>
+</html>

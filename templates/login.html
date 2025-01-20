@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PDF-Bot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #111827;
+            color: #ffffff;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #111827 0%, #DC2626 100%);
+        }
+        .form-card {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+        .form-input {
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            color: white;
+        }
+        .form-input:focus {
+            border-color: #DC2626;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+        .form-input::placeholder {
+            color: rgba(156, 163, 175, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 gradient-bg">
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="flex justify-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <i class="fas fa-robot text-red-600 text-4xl"></i>
+                    <span class="text-3xl font-bold bg-gradient-to-r from-red-600 to-red-800 text-transparent bg-clip-text">PDF-Bot</span>
+                </a>
+            </div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
+                Sign in to your account
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-400">
+                Or
+                <a href="/signup" class="font-medium text-red-600 hover:text-red-500">
+                    create a new account
+                </a>
+            </p>
+        </div>
+
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="form-card py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="mb-4 bg-red-900 border border-red-600 text-white px-4 py-3 rounded relative" role="alert">
+                                <span class="block sm:inline">{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form class="space-y-6" action="/login" method="POST">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-300">
+                            Email address
+                        </label>
+                        <div class="mt-1">
+                            <input id="email" name="email" type="email" autocomplete="email" required 
+                                class="form-input appearance-none block w-full px-3 py-2 rounded-md focus:outline-none sm:text-sm" 
+                                placeholder="Enter your email">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-300">
+                            Password
+                        </label>
+                        <div class="mt-1">
+                            <input id="password" name="password" type="password" autocomplete="current-password" required 
+                                class="form-input appearance-none block w-full px-3 py-2 rounded-md focus:outline-none sm:text-sm"
+                                placeholder="Enter your password">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember_me" name="remember_me" type="checkbox" 
+                                class="h-4 w-4 bg-gray-800 border-red-600 text-red-600 focus:ring-red-500 rounded">
+                            <label for="remember_me" class="ml-2 block text-sm text-gray-300">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-red-600 hover:text-red-500">
+                                Forgot password?
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" 
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
+                            Sign in
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

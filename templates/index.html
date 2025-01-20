@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF-Bot Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        }
+        .chat-container {
+            height: calc(100vh - 16rem);
+        }
+        .chat-messages {
+            height: calc(100% - 4rem);
+        }
+        .message {
+            max-width: 80%;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .user-message {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        }
+        .bot-message {
+            background: #f3f4f6;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .loading-dots::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80% { content: '...'; }
+        }
+        .file-drop-zone {
+            border: 2px dashed #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .file-drop-zone:hover {
+            border-color: #4F46E5;
+            background-color: rgba(79, 70, 229, 0.05);
+        }
+        .action-button {
+            transition: all 0.3s ease;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+        }
+        .sidebar-link {
+            transition: all 0.3s ease;
+        }
+        .sidebar-link:hover {
+            background-color: rgba(79, 70, 229, 0.1);
+            padding-left: 1.5rem;
+        }
+        .chat-input {
+            transition: all 0.3s ease;
+        }
+        .chat-input:focus {
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="flex items-center space-x-2">
+                        <i class="fas fa-robot text-indigo-600 text-2xl"></i>
+                        <span class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">PDF-Bot</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600">Welcome, {{ current_user.username }}!</span>
+                    <a href="/logout" class="text-gray-600 hover:text-indigo-600 transition duration-300">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Sidebar -->
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-lg shadow-lg p-6" data-aos="fade-right">
+                    <h2 class="text-xl font-semibold mb-4">Actions</h2>
+                    <div class="space-y-2">
+                        <button onclick="document.getElementById('fileInput').click()" class="sidebar-link w-full text-left px-4 py-2 rounded-lg text-gray-700 hover:text-indigo-600 flex items-center">
+                            <i class="fas fa-upload mr-2"></i> Upload PDF
+                        </button>
+                        <button onclick="generateSummary()" class="sidebar-link w-full text-left px-4 py-2 rounded-lg text-gray-700 hover:text-indigo-600 flex items-center">
+                            <i class="fas fa-file-alt mr-2"></i> Generate Summary
+                        </button>
+                        <button onclick="extractKeyPoints()" class="sidebar-link w-full text-left px-4 py-2 rounded-lg text-gray-700 hover:text-indigo-600 flex items-center">
+                            <i class="fas fa-list mr-2"></i> Extract Key Points
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="md:col-span-3">
+                <!-- File Upload Section -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-8" data-aos="fade-up">
+                    <div class="file-drop-zone rounded-lg p-8 text-center" id="dropZone">
+                        <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFileUpload(event)">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-indigo-600 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Drop your PDF here</h3>
+                        <p class="text-gray-600 mb-4">or click to browse</p>
+                        <button onclick="document.getElementById('fileInput').click()" class="action-button bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700">
+                            Choose File
+                        </button>
+                    </div>
+                    <div id="uploadProgress" class="hidden mt-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="gradient-bg h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Section -->
+                <div class="bg-white rounded-lg shadow-lg" data-aos="fade-up" data-aos-delay="100">
+                    <div class="chat-container">
+                        <div class="chat-messages p-6 overflow-y-auto space-y-4" id="chatMessages">
+                            <!-- Messages will be added here -->
+                            <div class="message bot-message rounded-lg p-4 ml-auto">
+                                <p class="text-gray-800">Hello! I'm your PDF assistant. Upload a PDF and ask me anything about it!</p>
+                            </div>
+                        </div>
+                        <div class="border-t p-4">
+                            <div class="flex space-x-4">
+                                <input type="text" id="messageInput" class="chat-input flex-1 rounded-full border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" placeholder="Ask a question about your PDF...">
+                                <button onclick="sendMessage()" class="action-button gradient-bg text-white px-6 py-2 rounded-full hover:opacity-90">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // File Upload Handling
+        const dropZone = document.getElementById('dropZone');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const progressBar = uploadProgress.querySelector('div > div');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-indigo-500', 'bg-indigo-50');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-indigo-500', 'bg-indigo-50');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-indigo-500', 'bg-indigo-50');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type === 'application/pdf') {
+                handleFileUpload({ target: { files: [file] } });
+            }
+        });
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            uploadProgress.classList.remove('hidden');
+            progressBar.style.width = '0%';
+
+            const xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const percent = (e.loaded / e.total) * 100;
+                    progressBar.style.width = percent + '%';
+                }
+            });
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    addMessage('File uploaded successfully!', 'bot');
+                    uploadProgress.classList.add('hidden');
+                } else {
+                    addMessage('Error uploading file. Please try again.', 'bot');
+                }
+            };
+
+            xhr.open('POST', '/upload', true);
+            xhr.send(formData);
+        }
+
+        // Chat Functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+
+        function addMessage(text, type) {
+            const message = document.createElement('div');
+            message.className = `message ${type}-message rounded-lg p-4 ${type === 'user' ? 'ml-auto' : 'mr-auto'} text-${type === 'user' ? 'white' : 'gray-800'}`;
+            message.innerHTML = `<p>${text}</p>`;
+            chatMessages.appendChild(message);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            messageInput.value = '';
+
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                addMessage(data.response, 'bot');
+            })
+            .catch(error => {
+                addMessage('Error: Could not get response', 'bot');
+            });
+        }
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Summary and Key Points Functions
+        function generateSummary() {
+            fetch('/summarize')
+            .then(response => response.json())
+            .then(data => {
+                addMessage('Summary: ' + data.summary, 'bot');
+            })
+            .catch(error => {
+                addMessage('Error generating summary. Please upload a PDF first.', 'bot');
+            });
+        }
+
+        function extractKeyPoints() {
+            fetch('/key_points')
+            .then(response => response.json())
+            .then(data => {
+                const points = data.key_points.join('\n• ');
+                addMessage('Key Points:\n• ' + points, 'bot');
+            })
+            .catch(error => {
+                addMessage('Error extracting key points. Please upload a PDF first.', 'bot');
+            });
+        }
+    </script>
+</body>
+</html>

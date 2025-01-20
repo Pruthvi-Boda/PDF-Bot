@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PDF-Bot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #271111;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #271111 0%, #DC2626 100%);
+        }
+        .glass-card {
+            background: rgba(39, 17, 17, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+        .form-input {
+            background: rgb(55, 31, 31);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            color: white;
+        }
+        .form-input:focus {
+            border-color: #DC2626;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+        .form-input::placeholder {
+            color: rgba(156, 163, 175, 0.8);
+        }
+        .red-gradient-text {
+            background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .red-gradient-bg {
+            background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+        }
+        .hover-red:hover {
+            background: rgba(220, 38, 38, 0.1);
+            border-color: #DC2626;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(17, 24, 39, 0.8);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #DC2626;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #991B1B;
+        }
+    </style>
+</head>
+<body class="gradient-bg">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 glass-card">
+            <div class="p-4 border-b border-red-800">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-robot text-red-600 text-2xl"></i>
+                    <span class="text-2xl font-bold red-gradient-text">PDF-Bot</span>
+                </div>
+            </div>
+            
+            <!-- PDF List -->
+            <div class="flex-1 overflow-y-auto p-4 custom-scrollbar">
+                <h2 class="text-xl font-bold red-gradient-text mb-4">Your PDFs</h2>
+                <div class="space-y-2">
+                    <!-- Example PDF item -->
+                    <div class="glass-card p-3 rounded-lg hover-red cursor-pointer transition-all duration-300">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-file-pdf text-red-600"></i>
+                            <div>
+                                <h4 class="text-sm font-medium text-white">Document1.pdf</h4>
+                                <p class="text-xs text-gray-400">Added 2h ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <div class="flex h-full space-x-6">
+                <!-- Upload Area -->
+                <div class="w-1/2">
+                    <div class="h-full glass-card rounded-lg hover-red transition-all duration-300 flex flex-col items-center justify-center p-8 text-center">
+                        <i class="fas fa-file-pdf text-red-600 text-5xl mb-4"></i>
+                        <h3 class="text-xl font-bold text-white mb-2">Drop your PDF here</h3>
+                        <p class="text-gray-400 mb-6">or click to browse</p>
+                        <button onclick="document.getElementById('file-upload').click()" 
+                            class="red-gradient-bg text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-300 shadow-lg">
+                            Choose File
+                        </button>
+                        <input type="file" id="file-upload" class="hidden" accept=".pdf">
+                    </div>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="w-1/2 flex flex-col">
+                    <div class="flex-1 overflow-y-auto mb-4 custom-scrollbar">
+                        <!-- Welcome Message -->
+                        <div class="glass-card rounded-lg p-4 mb-4">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-robot text-red-600 text-xl mt-1"></i>
+                                <div>
+                                    <p class="text-white">Hello! I'm your PDF assistant. Upload a PDF and I'll help you analyze it.</p>
+                                    <div class="grid grid-cols-2 gap-3 mt-4">
+                                        <div class="glass-card p-3 rounded-lg text-center hover-red cursor-pointer">
+                                            <i class="fas fa-search text-red-600 mb-2"></i>
+                                            <p class="text-sm">Smart Search</p>
+                                        </div>
+                                        <div class="glass-card p-3 rounded-lg text-center hover-red cursor-pointer">
+                                            <i class="fas fa-lightbulb text-red-600 mb-2"></i>
+                                            <p class="text-sm">Key Insights</p>
+                                        </div>
+                                        <div class="glass-card p-3 rounded-lg text-center hover-red cursor-pointer">
+                                            <i class="fas fa-list text-red-600 mb-2"></i>
+                                            <p class="text-sm">Summaries</p>
+                                        </div>
+                                        <div class="glass-card p-3 rounded-lg text-center hover-red cursor-pointer">
+                                            <i class="fas fa-comments text-red-600 mb-2"></i>
+                                            <p class="text-sm">Q&A</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message Input -->
+                    <div class="flex space-x-3">
+                        <input type="text" 
+                            class="flex-1 form-input rounded-lg px-4 py-3 focus:outline-none"
+                            placeholder="Ask me anything about your PDF...">
+                        <button class="red-gradient-bg text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // File upload handling
+        const dropZone = document.querySelector('.glass-card');
+        const fileInput = document.getElementById('file-upload');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('border-red-600');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('border-red-600');
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0 && files[0].type === 'application/pdf') {
+                // Handle PDF upload
+                console.log('PDF file selected:', files[0].name);
+            }
+        }
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+    </script>
+</body>
+</html>

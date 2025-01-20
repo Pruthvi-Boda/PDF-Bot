@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - PDF-Bot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #111827;
+            color: #ffffff;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #111827 0%, #DC2626 100%);
+        }
+        .form-card {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+        .form-input {
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            color: white;
+        }
+        .form-input:focus {
+            border-color: #DC2626;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 gradient-bg">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <div class="flex justify-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <i class="fas fa-robot text-red-600 text-4xl"></i>
+                    <span class="text-3xl font-bold bg-gradient-to-r from-red-600 to-red-800 text-transparent bg-clip-text">PDF-Bot</span>
+                </a>
+            </div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
+                Create your account
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-400">
+                Or
+                <a href="/login" class="font-medium text-red-600 hover:text-red-500">
+                    sign in to your account
+                </a>
+            </p>
+        </div>
+        <form class="mt-8 space-y-6 form-card p-8 rounded-xl shadow-xl" action="/signup" method="POST">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="bg-red-900 border border-red-600 text-white px-4 py-3 rounded relative" role="alert">
+                            <span class="block sm:inline">{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="name" class="sr-only">Full Name</label>
+                    <input id="name" name="name" type="text" required 
+                        class="form-input appearance-none rounded-none relative block w-full px-3 py-2 rounded-t-md focus:outline-none focus:z-10 sm:text-sm" 
+                        placeholder="Full Name">
+                </div>
+                <div>
+                    <label for="email" class="sr-only">Email address</label>
+                    <input id="email" name="email" type="email" required 
+                        class="form-input appearance-none rounded-none relative block w-full px-3 py-2 focus:outline-none focus:z-10 sm:text-sm" 
+                        placeholder="Email address">
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Password</label>
+                    <input id="password" name="password" type="password" required 
+                        class="form-input appearance-none rounded-none relative block w-full px-3 py-2 focus:outline-none focus:z-10 sm:text-sm" 
+                        placeholder="Password">
+                </div>
+                <div>
+                    <label for="confirm_password" class="sr-only">Confirm Password</label>
+                    <input id="confirm_password" name="confirm_password" type="password" required 
+                        class="form-input appearance-none rounded-none relative block w-full px-3 py-2 rounded-b-md focus:outline-none focus:z-10 sm:text-sm" 
+                        placeholder="Confirm Password">
+                </div>
+            </div>
+
+            <div class="flex items-center">
+                <input id="terms" name="terms" type="checkbox" required
+                    class="h-4 w-4 bg-gray-800 border-red-600 text-red-600 focus:ring-red-500">
+                <label for="terms" class="ml-2 block text-sm text-gray-300">
+                    I agree to the 
+                    <a href="#" class="text-red-600 hover:text-red-500">Terms of Service</a>
+                    and
+                    <a href="#" class="text-red-600 hover:text-red-500">Privacy Policy</a>
+                </label>
+            </div>
+
+            <div>
+                <button type="submit" 
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <i class="fas fa-user-plus text-red-500 group-hover:text-red-400"></i>
+                    </span>
+                    Create Account
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

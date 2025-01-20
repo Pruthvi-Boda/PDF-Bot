@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="600px" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="gradient1">
+            <stop stop-color="#DC2626" offset="0%"/>
+            <stop stop-color="#991B1B" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="100%" y1="0%" x2="0%" y2="100%" id="gradient2">
+            <stop stop-color="#DC2626" offset="0%"/>
+            <stop stop-color="#991B1B" offset="100%"/>
+        </linearGradient>
+    </defs>
+    <!-- Background Elements -->
+    <circle cx="150" cy="450" r="100" fill="url(#gradient1)" opacity="0.1"/>
+    <circle cx="650" cy="150" r="80" fill="url(#gradient2)" opacity="0.1"/>
+    
+    <!-- Main Robot Body -->
+    <rect x="300" y="200" width="200" height="250" rx="20" fill="#DC2626"/>
+    
+    <!-- Robot Head -->
+    <rect x="325" y="100" width="150" height="120" rx="15" fill="#991B1B"/>
+    
+    <!-- Robot Eyes -->
+    <circle cx="375" cy="150" r="15" fill="#FFFFFF"/>
+    <circle cx="425" cy="150" r="15" fill="#FFFFFF"/>
+    <circle cx="375" cy="150" r="8" fill="#000000"/>
+    <circle cx="425" cy="150" r="8" fill="#000000"/>
+    
+    <!-- Robot Antenna -->
+    <rect x="385" y="70" width="30" height="40" fill="#DC2626"/>
+    <circle cx="400" cy="60" r="15" fill="#991B1B"/>
+    
+    <!-- Robot Arms -->
+    <rect x="250" y="250" width="50" height="150" rx="10" fill="#991B1B"/>
+    <rect x="500" y="250" width="50" height="150" rx="10" fill="#991B1B"/>
+    
+    <!-- PDF Document -->
+    <g transform="translate(320, 270)">
+        <rect width="160" height="200" rx="5" fill="#1F2937" stroke="#DC2626" stroke-width="4"/>
+        <rect x="20" y="30" width="120" height="10" rx="2" fill="#374151"/>
+        <rect x="20" y="60" width="100" height="10" rx="2" fill="#374151"/>
+        <rect x="20" y="90" width="110" height="10" rx="2" fill="#374151"/>
+        <rect x="20" y="120" width="90" height="10" rx="2" fill="#374151"/>
+        <rect x="20" y="150" width="120" height="10" rx="2" fill="#374151"/>
+    </g>
+    
+    <!-- Chat Bubbles -->
+    <g transform="translate(500, 150)">
+        <path d="M0,0 L80,0 Q100,0 100,20 L100,60 Q100,80 80,80 L20,80 Q0,80 0,60 L0,20 Q0,0 20,0" fill="#1F2937"/>
+        <circle cx="25" cy="40" r="5" fill="#DC2626"/>
+        <circle cx="50" cy="40" r="5" fill="#DC2626"/>
+        <circle cx="75" cy="40" r="5" fill="#DC2626"/>
+    </g>
+    
+    <!-- Binary Code Background -->
+    <g fill="#DC2626" opacity="0.1">
+        <text x="50" y="100" font-family="monospace" font-size="20">10110</text>
+        <text x="700" y="200" font-family="monospace" font-size="20">01001</text>
+        <text x="100" y="300" font-family="monospace" font-size="20">11010</text>
+        <text x="650" y="400" font-family="monospace" font-size="20">00101</text>
+        <text x="150" y="500" font-family="monospace" font-size="20">10011</text>
+    </g>
+</svg>
